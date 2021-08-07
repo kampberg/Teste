@@ -1,0 +1,24 @@
+import httplib2
+import argparse
+
+
+parser = argparse.ArgumentParser(description='-u URL')
+parser.add_argument('-u', action="store", dest="site")
+results = parser.parse_args()
+site = results.site
+
+
+
+
+h = httplib2.Http(".cache")
+
+Admin = []
+
+f = open('admin.txt', 'r')
+for line in f:
+	Admin.append(line.replace("\n", ""))
+
+for payload in Admin:
+    (resp_headers, content) = h.request(site + payload, "GET")
+    if resp_headers.status == 200:
+        print (payload)
